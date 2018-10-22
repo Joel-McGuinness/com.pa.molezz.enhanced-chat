@@ -1,12 +1,12 @@
 {
     "context": "client",
-    "identifier": "com.pa.molezz.oi-listen-here",
-    "display_name": "Oi Listen Here",
-    "description": "Ability to mention someone's handle in a chat message to give them an audible notification.",
+    "identifier": "com.pa.molezz.enhanced-chat",
+    "display_name": "Enhanced Chat",
+    "description": "Adds ability to mention players in chat messages. If a user is mentioned a chime is played. To assist in the entering of peoples' usernames (Yes some of you have long and complex usernames) the ability to auto-complete a username is implemented. When viewing logs of All and Team channel cross contamination has been removed, you will only see messages related to that given channel.",
     "author": "MoleZz",
     "version": "0.1",
     "build": "105067",
-    "date": "2017-12-10",
+    "date": "2018-10-22",
     "signature": "not yet implemented",
     "forum": "",
     "priority": 100,
@@ -16,11 +16,11 @@
     {
         "live_game":
             [
-                "coui://ui/mods/com.pa.molezz.oi-listen-here/live_game.js"
+                "coui://ui/mods/com.pa.molezz.enhanced-chat/live_game.js"
             ],
         "live_game_chat":
             [
-                "coui://ui/mods/com.pa.molezz.oi-listen-here/live_game_chat.js"
+                "coui://ui/mods/com.pa.molezz.enhanced-chat/live_game_chat.js"
             ]
     }
   }
