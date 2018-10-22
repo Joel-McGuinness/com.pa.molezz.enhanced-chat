@@ -1,0 +1,26 @@
+{
+    "context": "client",
+    "identifier": "com.pa.molezz.oi-listen-here",
+    "display_name": "Oi Listen Here",
+    "description": "Ability to mention someone's handle in a chat message to give them an audible notification.",
+    "author": "MoleZz",
+    "version": "0.1",
+    "build": "105067",
+    "date": "2017-12-10",
+    "signature": "not yet implemented",
+    "forum": "",
+    "priority": 100,
+    "icon": "",
+    "category": ["gameplay", "lobby", "ui"],
+    "scenes":
+    {
+        "live_game":
+            [
+                "coui://ui/mods/com.pa.molezz.oi-listen-here/live_game.js"
+            ],
+        "live_game_chat":
+            [
+                "coui://ui/mods/com.pa.molezz.oi-listen-here/live_game_chat.js"
+            ]
+    }
+  }
