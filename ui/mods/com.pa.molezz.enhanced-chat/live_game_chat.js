@@ -90,14 +90,18 @@
             "border-color": "transparent",
         });
         if (this.value.indexOf('@') != -1){
+            // Once an '@' is found we use everything after it as our input
             var input = this.value.substring(this.value.indexOf('@')+1).toUpperCase();
             var players = model.state().players;
             if (input.length > 0){
                 for (i in players){
+                    // Make sure we can't @ tag ourselves
                     if (players[i].stateToPlayer != "self"){
+                        // Checking for space at the end of input as indication to attempt username resolution
                         if (this.value[this.value.length-1] == " "){
                             if(nameMatch(input.substring(0,input.length-1), players[i].name.toUpperCase())){
                                 if(displayed_players.indexOf(players[i].name.toUpperCase()) != -1){
+                                    // Attach message back onto the front of the resolved username
                                     var message = this.value.substring(0,this.value.indexOf('@'))+players[i].name+" ";
                                     $('.input_chat_text').val(message);
                                 }
