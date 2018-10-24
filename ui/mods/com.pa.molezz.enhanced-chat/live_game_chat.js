@@ -89,26 +89,29 @@
             "background":"",
             "border-color": "transparent",
         });
-        if (this.value[0] == '@' && this.value.length > 1){
-            var input = this.value.substring(1).toUpperCase();
-            players = model.state().players;
-            for (i in players){
-                if (players[i].stateToPlayer != "self"){
-                    if (this.value[this.value.length-1] == " "){
-                        if(nameMatch(input.substring(0,input.length-1), players[i].name.toUpperCase())){
-                            if(displayed_players.indexOf(players[i].name.toUpperCase()) != -1){
-                                $('.input_chat_text').val(players[i].name+" ");
+        if (this.value.indexOf('@') != -1){
+            var input = this.value.substring(this.value.indexOf('@')+1).toUpperCase();
+            var players = model.state().players;
+            if (input.length > 0){
+                for (i in players){
+                    if (players[i].stateToPlayer != "self"){
+                        if (this.value[this.value.length-1] == " "){
+                            if(nameMatch(input.substring(0,input.length-1), players[i].name.toUpperCase())){
+                                if(displayed_players.indexOf(players[i].name.toUpperCase()) != -1){
+                                    var message = this.value.substring(0,this.value.indexOf('@'))+players[i].name+" ";
+                                    $('.input_chat_text').val(message);
+                                }
                             }
                         }
-                    }
-                    else{
-                        if(nameMatch(input, players[i].name.toUpperCase())){
-                            $('#'+players[i].name).css({
-                                "background":"rgba(0,0,0,0.4)",
-                                "border-color": "white",
-                                "border-radius":"4px",
-                            });
-                            break;
+                        else{
+                            if(nameMatch(input, players[i].name.toUpperCase())){
+                                $('#'+players[i].name).css({
+                                    "background":"rgba(0,0,0,0.4)",
+                                    "border-color": "white",
+                                    "border-radius":"4px",
+                                });
+                                break;
+                            }
                         }
                     }
                 }
