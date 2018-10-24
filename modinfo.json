@@ -2,7 +2,7 @@
     "context": "client",
     "identifier": "com.pa.molezz.enhanced-chat",
     "display_name": "Enhanced Chat",
-    "description": "'@' tag players in chat - Auto-completes once player's name is highlighed. Chime is played if your username is mentioned. Split 'All' and 'Team' chat logs to make looking at old messages easier.",
+    "description": "'@' tag players in chat - Auto-complete a player's name as you type by pressing 'Spacebar'. Player names are shown underneath the chat input for reference (and more importantly to show who is going to see this message). A chime will play if your username is mentioned in a message. The All and Team chat logs are split to make looking at old messages easier.",
     "author": "MoleZz",
     "version": "0.1",
     "build": "105067",
@@ -10,7 +10,7 @@
     "signature": "not yet implemented",
     "forum": "https://forums.planetaryannihilation.com/threads/enhanced-in-game-chat.73184/",
     "priority": 100,
-    "icon": "https://palobby.com/icon.png",
+    "icon": "https://i.imgur.com/AYsf5AN.png",
     "category": ["gameplay", "lobby", "ui"],
     "scenes":
     {
