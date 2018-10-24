@@ -8,20 +8,28 @@
             team = model.state().team;
             $("#players").remove();
             players = model.state().players;
-            $('.div_chat_log').append('<div style=" display: flex; flex-wrap: wrap; background:rgba(0,0,0,0.8); border:1px solid #666; border-top:0; " id="players"></div>');
+            $('.div_chat_log').append('<div style="display: flex; flex-wrap: wrap; background:rgba(255,255,255,0.1); border:1px solid #666; border-top:0;" id="players"></div>');
             for (i in players){
                 if (players[i].stateToPlayer != "self"){
-                    style = "color:"+players[i].color+"; margin: 4px 4px 4px 10px; padding: 2px;";
                     if (players[i].stateToPlayer.search("allied") != -1){
-                        $('#players').append('<div id="'+players[i].name+'" class="player" style="'+style+'">'+players[i].name+'</div>');
+                        $('#players').append('<div id="'+players[i].name+'" class="player"><div style="margin-right: 4px; width: 8px; background:'+players[i].color+'"/><div>'+players[i].name+'</div></div>');
                         displayed_players.push(players[i].name.toUpperCase());
                     }
                     else{
                         if (!team){
-                            $('#players').append('<div id="'+players[i].name+'" class="player" style="'+style+'">'+players[i].name+'</div>');
+                            $('#players').append('<div id="'+players[i].name+'" class="player"><div style="margin-right: 4px; width: 8px; background:'+players[i].color+'"/><div>'+players[i].name+'</div></div>');
                             displayed_players.push(players[i].name.toUpperCase());
                         }
                     }
+                    $(".player").css({
+                        "margin": "4px",
+                        "padding": "4px",
+                        "border": "2px solid transparent",
+                        // "font-weight": "900",
+                        "text-shadow": "none",
+                        "transition": "all ease-out 0.1s",
+                        "display": "flex",
+                    })
                 }
                 else{
                     self_user = players[i].name;
@@ -70,7 +78,10 @@
     }
 
     $('.input_chat_text').on('input', function(){
-        $('.player').css("background","");
+        $('.player').css({
+            "background":"",
+            "border-color": "transparent",
+        });
         if (this.value[0] == '@' && this.value.length > 1){
             var input = this.value.substring(1).toUpperCase();
             players = model.state().players;
@@ -86,7 +97,8 @@
                     else{
                         if(nameMatch(input, players[i].name.toUpperCase())){
                             $('#'+players[i].name).css({
-                                "background":"rgba(255,255,255,0.2)",
+                                "background":"rgba(0,0,0,0.4)",
+                                "border-color": "white",
                                 "border-radius":"4px",
                             });
                             break;
