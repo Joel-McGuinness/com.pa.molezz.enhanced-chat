@@ -3,11 +3,14 @@
     var displayed_players = [];
     var self_user;
     model.state.subscribe(function(){
+        // Reseting variables on state update
         displayed_players = [];
         team = model.state().team;
         $("#players").remove();
         players = model.state().players;
         $('.div_chat_log').append('<div style="display: flex; flex-wrap: wrap; background:rgba(255,255,255,0.1); border:1px solid #666; border-top:0;" id="players"></div>');
+        // Loop each player and check if they are an ally.
+        // If the chat being opened is the 'Team' channel only render allies.
         for (i in players){
             if (players[i].stateToPlayer != "self"){
                 if (players[i].stateToPlayer.search("allied") != -1){
@@ -29,6 +32,7 @@
                     "display": "flex",
                 })
             }
+            // Track our own username
             else{
                 self_user = players[i].name;
             }
@@ -62,6 +66,11 @@
         }
     });
 
+    // -- Name Match --
+    // param input - Current string in chat input
+    // param player_name - Current player name in iteration check
+    //
+    // return boolean - Whether the input currently matchs up to a player's name
     function nameMatch(input, player_name){
         for (var char = 0; char < input.length; char++){
             if (input[char] == player_name[char]){
@@ -74,6 +83,7 @@
         return true;
     }
 
+    // Check usernames on each key stroke when input box is selected
     $('.input_chat_text').on('input', function(){
         $('.player').css({
             "background":"",
