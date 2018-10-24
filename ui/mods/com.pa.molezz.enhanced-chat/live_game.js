@@ -9,7 +9,6 @@
     }
     model.chatSelected.subscribe(function(){
         if (model.chatSelected()){
-            console.log("Sending...");
             model.chatState = ko.computed(function() {                
                 return {
                     selected: model.chatSelected(),
