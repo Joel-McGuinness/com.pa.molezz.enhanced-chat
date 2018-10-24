@@ -2,15 +2,15 @@
     "context": "client",
     "identifier": "com.pa.molezz.enhanced-chat",
     "display_name": "Enhanced Chat",
-    "description": "Adds ability to mention players in chat messages. If a user is mentioned a chime is played. To assist in the entering of peoples' usernames (Yes some of you have long and complex usernames) the ability to auto-complete a username is implemented. When viewing logs of All and Team channel cross contamination has been removed, you will only see messages related to that given channel.",
+    "description": "'@' tag players in chat - Auto-completes once player's name is highlighed. Chime is played if your username is mentioned. Split 'All' and 'Team' chat logs to make looking at old messages easier.",
     "author": "MoleZz",
     "version": "0.1",
     "build": "105067",
     "date": "2018-10-22",
     "signature": "not yet implemented",
-    "forum": "",
+    "forum": "https://forums.planetaryannihilation.com/threads/enhanced-in-game-chat.73184/",
     "priority": 100,
-    "icon": "",
+    "icon": "https://palobby.com/icon.png",
     "category": ["gameplay", "lobby", "ui"],
     "scenes":
     {
