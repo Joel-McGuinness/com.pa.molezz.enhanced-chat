@@ -10,19 +10,12 @@
         return players
     }
     // Adding players to the chatState so we can access player usernames in live_game_chat.js
-    model.chatSelected.subscribe(function(){
-        if (model.chatSelected()){
-            model.chatState = ko.computed(function() {                
-                return {
-                    selected: model.chatSelected(),
-                    spectator: model.isSpectator() && model.teamChat() && ! model.playerInTeam(),
-                    team: model.teamChat(),
-                    players: getPlayers(),
-                };
-            });
-            ko.computed(function() {
-                api.panels.chat && api.panels.chat.message('state', model.chatState());
-            });
-        }
-    })
+    model.chatState = ko.computed(function() {                
+        return {
+            selected: model.chatSelected(),
+            spectator: model.isSpectator() && model.teamChat() && ! model.playerInTeam(),
+            team: model.teamChat(),
+            players: getPlayers(),
+        };
+    });
 })();

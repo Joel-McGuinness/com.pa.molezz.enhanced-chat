@@ -1,0 +1,32 @@
+#players{
+    display: flex; 
+    flex-wrap: wrap; 
+    background:rgba(255,255,255,0.1); 
+    border:1px solid #666; 
+    border-top:0;
+}
+
+.player{
+    margin: 4px;
+    padding: 4px;
+    border: 2px solid transparent;
+    text-shadow: none;
+    transition: all ease-out 0.1s;
+    display: flex;
+}
+
+.player_colour{
+    margin-right: 4px; 
+    width: 8px;
+}
+
+.chat_input_tag{
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+.input_chat_text{
+    border: 0 !important;
+    border-left: 1px solid #4D4D4D !important;
+    width: 288px !important;
+}
