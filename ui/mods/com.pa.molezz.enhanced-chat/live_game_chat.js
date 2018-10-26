@@ -73,7 +73,7 @@ $('.input_chat_text').on('input', function(){
                             if(displayed_players.indexOf(players[i].name.toUpperCase()) != -1){
                                 // Attach message back onto the front of the resolved username
                                 var message = this.value.substring(0,this.value.indexOf('@'))+players[i].name+" ";
-                                $('.input_chat_text').val(message);
+                                model.$input().val(message);
                             }
                         }
                     }
