@@ -18,4 +18,3 @@
             players: getPlayers(),
         };
     });
-})();
