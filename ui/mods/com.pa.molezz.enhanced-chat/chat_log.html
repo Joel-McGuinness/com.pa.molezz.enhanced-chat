@@ -1,0 +1,14 @@
+<div class="div_chat_log_feed" data-bind="foreach:logs">
+    <!-- ko if: model.chatType() == "TEAM:" -->
+    <div class='chat_message' data-bind="visible: !(model.squelchGlobalChat() && $data.isGlobal()) && $data.isTeam()">
+            <span class='chat_message_player_name' data-bind="visible: player_name, text: player_name, css: { team_chat_message_player_name: isTeam }"></span>:
+            <span class="chat_message_body" data-bind="text: message, css: { team_chat_message_body: isTeam }"></span>
+        </div>
+    <!-- /ko -->
+    <!-- ko ifnot: model.chatType() == "TEAM:" -->
+        <div class='chat_message' data-bind="visible: !(model.squelchGlobalChat() && $data.isGlobal()) && !$data.isTeam()">
+            <span class='chat_message_player_name' data-bind="visible: player_name, text: player_name, css: { team_chat_message_player_name: isTeam }"></span>:
+            <span class="chat_message_body" data-bind="text: message, css: { team_chat_message_body: isTeam }"></span>
+        </div>
+    <!-- /ko -->
+</div>

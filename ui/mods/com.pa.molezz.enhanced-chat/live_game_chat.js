@@ -1,131 +1,109 @@
-(function() {
-    var team;
-    var displayed_players = [];
-    var self_user;
-    model.state.subscribe(function(){
-        // Reseting variables on state update
-        displayed_players = [];
-        team = model.state().team;
-        $("#players").remove();
-        players = model.state().players;
-        $('.div_chat_log').append('<div style="display: flex; flex-wrap: wrap; background:rgba(255,255,255,0.1); border:1px solid #666; border-top:0;" id="players"></div>');
-        // Loop each player and check if they are an ally.
-        // If the chat being opened is the 'Team' channel only render allies.
+ko.components.register('chat_player_list',{
+    viewModel: function(params){
+        this.displayed_players = [];
+        this.self_user;
+        var players = params.state.players;
+        // Loop through the players and if the team chat is selected only add allies to the array.
         for (i in players){
             if (players[i].stateToPlayer != "self"){
                 if (players[i].stateToPlayer.search("allied") != -1){
-                    $('#players').append('<div id="'+players[i].name+'" class="player"><div style="margin-right: 4px; width: 8px; background:'+players[i].color+'"/><div>'+players[i].name+'</div></div>');
-                    displayed_players.push(players[i].name.toUpperCase());
+                    this.displayed_players.push(players[i]);
                 }
                 else{
-                    if (!team){
-                        $('#players').append('<div id="'+players[i].name+'" class="player"><div style="margin-right: 4px; width: 8px; background:'+players[i].color+'"/><div>'+players[i].name+'</div></div>');
-                        displayed_players.push(players[i].name.toUpperCase());
+                    if (!params.state.team){
+                        this.displayed_players.push(players[i]);
                     }
                 }
-                $(".player").css({
-                    "margin": "4px",
-                    "padding": "4px",
-                    "border": "2px solid transparent",
-                    "text-shadow": "none",
-                    "transition": "all ease-out 0.1s",
-                    "display": "flex",
-                })
             }
             // Track our own username
             else{
                 self_user = players[i].name;
             }
         }
-        // Re-format Chatbox
-        $('.chat_input_tag').css({"width": "100%", "padding":"0"});
-        $('.input_chat_text').css({"border": "0", "border-left": "1px solid #4D4D4D", "width": "288px"})
-        // Loop messages and only show ones relevant to chat selection
-        var messages = $(".div_chat_log_feed")[0].children;
-        if (messages.length != 0){
-            for (i in messages){
-                if (messages[i].children != undefined){
-                    if (team){
-                        if (messages[i].children[0].className.split(' ').indexOf("team_chat_message_player_name") == -1){
-                            messages[i].style.display = "none";
-                        }
-                        else{
-                            messages[i].style.display = "";
+    },
+    template: loadHtml('coui://ui/mods/com.pa.molezz.enhanced-chat/chat_player_list.html')
+})
+
+ko.components.register('chat_log',{
+    viewModel: function(params){
+        this.logs = params.logs
+    },
+    template: loadHtml('coui://ui/mods/com.pa.molezz.enhanced-chat/chat_log.html')
+})
+
+// Removes the old div_chat_log_feed html and replaces it with our new object
+$('.div_chat_log_feed').remove();
+$('.div_chat_log').prepend('<div data-bind="component:{name:\'chat_log\', params:{logs:model.chatLog()}}"></div>')
+$('.div_chat_log').append('<div data-bind="component:{name:\'chat_player_list\', params:{state:model.state()}}"></div>');
+
+// -- Name Match --
+// param input - Current string in chat input
+// param player_name - Current player name in iteration check
+//
+// return boolean - Whether the input currently matchs up to a player's name
+function nameMatch(input, player_name){
+    for (var char = 0; char < input.length; char++){
+        if (input[char] == player_name[char]){
+            continue;
+        }
+        else{
+            return false;
+        }
+    }
+    return true;
+}
+
+var displayed_players = [];
+$('.input_chat_text').on('input', function(){
+    $('.player').css({
+        "background":"",
+        "border-color": "transparent",
+    });
+    if (this.value.indexOf('@') != -1){
+        // Once an '@' is found we use everything after it as our input
+        var input = this.value.substring(this.value.indexOf('@')+1).toUpperCase();
+        var players = model.state().players;
+        if (input.length > 0){
+            for (i in players){
+                // Make sure we can't @ tag ourselves
+                if (players[i].stateToPlayer != "self"){
+                    // Checking for space at the end of input as indication to attempt username resolution
+                    if (this.value[this.value.length-1] == " "){
+                        if(nameMatch(input.substring(0,input.length-1), players[i].name.toUpperCase())){
+                            if(displayed_players.indexOf(players[i].name.toUpperCase()) != -1){
+                                // Attach message back onto the front of the resolved username
+                                var message = this.value.substring(0,this.value.indexOf('@'))+players[i].name+" ";
+                                $('.input_chat_text').val(message);
+                            }
                         }
                     }
                     else{
-                        if (messages[i].children[0].className.split(' ').indexOf("team_chat_message_player_name") != -1){
-                            messages[i].style.display = "none";
-                        }
-                        else{
-                            messages[i].style.display = "";
+                        // Check if the input matches the current username, if so highlight it.
+                        if(nameMatch(input, players[i].name.toUpperCase())){
+                            $('[id="'+players[i].name+'"]').css({
+                                "background":"rgba(0,0,0,0.4)",
+                                "border-color": "white",
+                                "border-radius":"4px",
+                            });
+                            break;
                         }
                     }
                 }
             }
         }
-    });
-
-    // -- Name Match --
-    // param input - Current string in chat input
-    // param player_name - Current player name in iteration check
-    //
-    // return boolean - Whether the input currently matchs up to a player's name
-    function nameMatch(input, player_name){
-        for (var char = 0; char < input.length; char++){
-            if (input[char] == player_name[char]){
-                continue;
-            }
-            else{
-                return false;
-            }
+        // Retreive our username when the user types '@'
+        // Stops us from tagging ourselves
+        else{
+            displayed_players = ko.contextFor(document.getElementById("players")).$component.displayed_players.map(function(player){
+                return player.name.toUpperCase();
+            })
         }
-        return true;
     }
+})
 
-    // Check usernames on each key stroke when input box is selected
-    $('.input_chat_text').on('input', function(){
-        $('.player').css({
-            "background":"",
-            "border-color": "transparent",
-        });
-        if (this.value.indexOf('@') != -1){
-            // Once an '@' is found we use everything after it as our input
-            var input = this.value.substring(this.value.indexOf('@')+1).toUpperCase();
-            var players = model.state().players;
-            if (input.length > 0){
-                for (i in players){
-                    // Make sure we can't @ tag ourselves
-                    if (players[i].stateToPlayer != "self"){
-                        // Checking for space at the end of input as indication to attempt username resolution
-                        if (this.value[this.value.length-1] == " "){
-                            if(nameMatch(input.substring(0,input.length-1), players[i].name.toUpperCase())){
-                                if(displayed_players.indexOf(players[i].name.toUpperCase()) != -1){
-                                    // Attach message back onto the front of the resolved username
-                                    var message = this.value.substring(0,this.value.indexOf('@'))+players[i].name+" ";
-                                    $('.input_chat_text').val(message);
-                                }
-                            }
-                        }
-                        else{
-                            if(nameMatch(input, players[i].name.toUpperCase())){
-                                $('#'+players[i].name).css({
-                                    "background":"rgba(0,0,0,0.4)",
-                                    "border-color": "white",
-                                    "border-radius":"4px",
-                                });
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    })
-
-    model.chatLog.subscribe(function(){
-        if (model.chatLog()[model.chatLog().length-1].message.toUpperCase().indexOf(self_user.toUpperCase()) != -1){
-            api.audio.playSound('/SE/UI/UI_camera_anchor_saved');
-        }
-    });
-})();
+// Checks if out username has been mentioed in a message, if so a chime is played.
+model.chatLog.subscribe(function(){
+    if (model.chatLog()[model.chatLog().length-1].message.toUpperCase().indexOf(self_user.toUpperCase()) != -1){
+        api.audio.playSound('/SE/UI/UI_camera_anchor_saved');
+    }
+});
