@@ -2,7 +2,7 @@
     "context": "client",
     "identifier": "com.pa.molezz.enhanced-chat",
     "display_name": "Enhanced Chat",
-    "description": "'@' tag players in chat - Auto-complete a player's name as you type by pressing 'Spacebar'. Player names are shown underneath the chat input for reference (and more importantly to show who is going to see this message). A chime will play if your username is mentioned in a message. The All and Team chat logs are split to make looking at old messages easier. NOTE: All players must have mod installed to receive audio notification.",
+    "description": "'@' tag players in chat - Auto-complete a player's name as you type by pressing 'Spacebar'. Player names are shown underneath the chat input for reference (and more importantly to show who is going to see this message). A chime will play if your username is mentioned in a message. The All and Team chat logs are split to make looking at old messages easier. NOTE: Receiving player must have mod installed to receive audio notification.",
     "author": "MoleZz",
     "version": "1.1.0",
     "build": "112214",
