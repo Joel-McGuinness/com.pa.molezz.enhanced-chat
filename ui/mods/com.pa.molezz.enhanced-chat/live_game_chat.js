@@ -74,6 +74,7 @@ $('.input_chat_text').on('input', function(){
                                 // Attach message back onto the front of the resolved username
                                 var message = this.value.substring(0,this.value.indexOf('@'))+players[i].name+" ";
                                 model.$input().val(message);
+                                break;
                             }
                         }
                     }
